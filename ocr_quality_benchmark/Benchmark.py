@@ -21,12 +21,20 @@ class Benchmark:
         self._path_to_csv = path_to_csv
         self._start_time: datetime = None  # type: ignore
         self._data = self._prepare_gold_data()
+        self.alfabet = self._prepare_alfabet()
+
+    def _prepare_alfabet(self):
+        alfabet = []
+        with open("D:\Inżynierka\Projekty\data\\alfabet.txt") as alf:
+            for line in alf:
+                alfabet.append(line[:2])
+        return alfabet
 
     def _calculate_scores_from_method(self, method, *parameters) -> None:
         ocr_qualities = []
         for row in self._data.itertuples():
             if len(parameters) == 0:
-                value = method(name=row[1], path_to_json=row[5])
+                value = method(name=row[1], path_to_json=row[5], alfabet=self.alfabet)
             else:
                 value = method(name=row[1], path_to_json=row[5], parameters=parameters)
             ocr_qualities.append(value)
