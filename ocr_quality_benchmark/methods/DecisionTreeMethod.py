@@ -4,7 +4,7 @@ from statistics import mean
 from joblib import load
 from pandas import DataFrame
 
-from ocr_quality_benchmark.methods.engine_score import score_file_engine_scores
+from ocr_quality_benchmark.methods.EngineScoreMethod import score_file_engine_scores
 from ocr_quality_benchmark.utils.make_models import score_file_engine_scores_for_decision_tree
 
 
