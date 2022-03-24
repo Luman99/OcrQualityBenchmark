@@ -33,10 +33,12 @@ class Benchmark:
     def _calculate_scores_from_method(self, method, *parameters) -> None:
         ocr_qualities = []
         for row in self._data.itertuples():
+            #print(row)
+            #print('xddd')
             if len(parameters) == 0:
-                value = method(name=row[1], path_to_json=row[5])
+                value = method(name=row[1])
             else:
-                value = method(name=row[1], path_to_json=row[5], parameters=parameters)
+                value = method(name=row[1], parameters=parameters)
             ocr_qualities.append(value)
 
         if 'method_ocr_quality' in self._data.columns:
@@ -70,8 +72,6 @@ class Benchmark:
                         (data['train_test'].isin(self._train_test))]
 
         data = data.rename(columns={'ocr_quality_wer': 'gold_ocr_quality_wer'})
-        data = data.rename(columns={'ocr_quality_cer': 'gold_ocr_quality_cer'})
-        data = data.rename(columns={'ocr_quality_iou': 'gold_ocr_quality_iou'})
         return data
 
     def analysis_result(self, method, show_plots: bool = False):
