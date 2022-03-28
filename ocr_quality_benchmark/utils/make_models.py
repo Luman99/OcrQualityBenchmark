@@ -27,6 +27,6 @@ def make_model_decision_tree(benchmark: Benchmark) -> None:
 
 
 if __name__ == '__main__':
-    benchmark_train = Benchmark(languages=['eng'], ocr_engines=['tesseract'],
-                                train_test=['train'], data_source=['ocr-test-challenge'])
+    benchmark_train = Benchmark(languages=['pol'], ocr_engines=['tesseract'],
+                                train_test=['train'], data_source=['fiszki_ocr'])
     make_model_decision_tree(benchmark_train)

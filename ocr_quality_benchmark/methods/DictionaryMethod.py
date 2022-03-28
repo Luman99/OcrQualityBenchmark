@@ -1,9 +1,9 @@
 from ocr_quality_benchmark.methods.Constants import alphabet
 
 
-def dictionary_method(name: str, path_to_json: str) -> float:
+def dictionary_method(name: str) -> float:
     text2 = ''
-    with open("D:\Inżynierka\Projekty\data\dev-0\in.tsv", encoding='latin1') as file:
+    with open("D:\Inzynierka\Projekty\data\dev-0\in.tsv", encoding='latin1') as file:
         for line in file:
             if name in line:
                 text2 = (line[53:])
