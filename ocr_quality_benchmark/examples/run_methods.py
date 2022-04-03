@@ -24,17 +24,15 @@ benchmark_test = Benchmark(languages=languages, ocr_engines=ocr_engines,
 benchmark_all = Benchmark(languages=languages, ocr_engines=ocr_engines,
                           train_test=train_test, data_source=data_source)
 
-logging.warning('dictionary score')
-logging.warning(benchmark_all.rate_method(dictionary_method))
-
-# logging.warning('dictionary score')
-# logging.warning(benchmark.rate_method(score_file_engine_scores))
-# benchmark.analysis_result(score_file_engine_scores, True)
-#
-logging.warning('engine score')
-logging.warning(benchmark_all.rate_method(score_file_engine_scores))
-# benchmark_all.analysis_result(score_file_engine_scores, True)
-#
 # decision_method = DecisionTreeMethod('../resources/decision_tree_tesseract.joblib')
 # logging.warning('decision_tree_tesseract')
 # logging.warning(benchmark_test.rate_method(decision_method.score_file))
+# benchmark_test.analysis_result(decision_method.score_file, True)
+#
+# logging.warning('engine score')
+# logging.warning(benchmark_test.rate_method(score_file_engine_scores))
+# benchmark_test.analysis_result(score_file_engine_scores, True)
+
+logging.warning('dictionary score')
+logging.warning(benchmark_all.rate_method(dictionary_method))
+benchmark_all.analysis_result(dictionary_method, True)
