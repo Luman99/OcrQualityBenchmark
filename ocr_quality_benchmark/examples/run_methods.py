@@ -34,5 +34,5 @@ benchmark_all = Benchmark(languages=languages, ocr_engines=ocr_engines,
 # benchmark_test.analysis_result(score_file_engine_scores, True)
 
 logging.warning('dictionary score')
-logging.warning(benchmark_all.rate_method(dictionary_method))
-benchmark_all.analysis_result(dictionary_method, True)
+logging.warning(benchmark_train.rate_method(dictionary_method))
+benchmark_train.analysis_result(dictionary_method, True)
