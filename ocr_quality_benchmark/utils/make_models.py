@@ -1,18 +1,7 @@
-import json
-from statistics import mean
-from typing import List
 from sklearn.tree import DecisionTreeRegressor
 
 from ocr_quality_benchmark.Benchmark import Benchmark
 from joblib import dump
-
-#
-# def score_file_engine_scores_for_decision_tree(name: str) -> List[int]:
-#     with open(path_to_json) as file:
-#         data_json = json.load(file)
-#
-#     return [mean(data_json['scores']), len([word for word in data_json['tokens'] if word.isspace()]),
-#             len(data_json['tokens'])]
 from ocr_quality_benchmark.methods.EngineScoreMethod import score_file_engine_scores
 
 
