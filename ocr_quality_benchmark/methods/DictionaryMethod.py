@@ -2,7 +2,7 @@ import re
 
 from pandas import DataFrame
 from string import punctuation
-from ocr_quality_benchmark.methods.Constants import polish_dictionary
+from ocr_quality_benchmark.utils.Constants import polish_dictionary
 
 regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
