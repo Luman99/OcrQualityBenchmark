@@ -17,7 +17,7 @@ class DecisionTreeMethod:
                             data[data['name'] == name]['tesseract_engine_score'].values[0]), 2)
         if score > 1:
             score = 1
-        if score < 0:
+        elif score < 0:
             score = 0
 
         return score

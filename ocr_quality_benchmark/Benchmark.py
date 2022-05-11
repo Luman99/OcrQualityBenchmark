@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+import time
 from typing import List, Optional, Dict
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -19,7 +19,6 @@ class Benchmark:
         self._ocr_engines = ocr_engines
         self._languages = languages
         self._path_to_csv = path_to_csv
-        self._start_time: datetime = None  # type: ignore
         self.data = self._prepare_gold_data()
 
     def _calculate_scores_from_method(self, method) -> None:
@@ -30,7 +29,6 @@ class Benchmark:
 
         if 'method_ocr_quality' in self.data.columns:
             self.data = self.data.drop(columns=['method_ocr_quality'])
-        #print(ocr_qualities)
         self.data['method_ocr_quality'] = ocr_qualities
 
     def _prepare_gold_data(self) -> pd.DataFrame:
@@ -52,19 +50,10 @@ class Benchmark:
         logging.warning(f"mean for gold - {self.data['ocr_quality_wer'].mean()}")
         logging.warning(f"mean for method - {self.data['method_ocr_quality'].mean()}")
 
-        # for gold, method in zip(self.data['ocr_quality_wer'], self.data['method_ocr_quality']):
-        #     if gold == 0:
-        #         print(f'gold: {gold}')
-        #         print(f'method: {method}')
-
         if show_plots:
             self.make_plots()
 
     def make_plots(self):
-        # correlations = self.data.corr().copy()
-        # correlations = correlations.rename(columns={'ocr_quality_wer': 'Wer', 'ocr_quality_cer': 'Cer',
-        #                                             'ocr_quality_iou': 'Iou', 'method_ocr_quality': 'Method'})
-
         abs_data = (self.data['ocr_quality_wer'] - self.data['method_ocr_quality']).abs()
 
         bins = np.histogram(np.hstack((self.data['ocr_quality_wer'])),
@@ -82,17 +71,12 @@ class Benchmark:
         abs_data.hist(alpha=0.5, color='green', bins=bins, label='abs_values', ax=axs[0, 1])
         axs[0, 1].set_ylim(0, 30)
 
-        # axs[1, 0].set_title('Correlations')
-        # sns.heatmap(correlations, cmap='coolwarm', vmin=0.4, vmax=1, center=0, annot=True,
-        #             square=True, linewidths=.5, ax=axs[1, 0])
-        axs[1, 0].plot(self.data['ocr_quality_wer'], self.data['method_ocr_quality'], 'bo')
-
-        axs[1, 1].plot(self.data['ocr_quality_wer'], self.data['method_ocr_quality'], 'ro')
-        axs[1, 1].set_xlabel('Wer')
-        axs[1, 1].set_ylabel('Method')
-        axs[1, 1].set_xlim(0, 1)
-        axs[1, 1].set_ylim(0, 1)
-        axs[1, 1].set_aspect('equal')
+        axs[1, 0].plot(self.data['ocr_quality_wer'], self.data['method_ocr_quality'], 'ro')
+        axs[1, 0].set_xlabel('Wer')
+        axs[1, 0].set_ylabel('Method')
+        axs[1, 0].set_xlim(0, 1)
+        axs[1, 0].set_ylim(0, 1)
+        axs[1, 0].set_aspect('equal')
         plt.show()
 
         # f, a = plt.subplots(2, 5)
@@ -106,7 +90,7 @@ class Benchmark:
         #     ax.set_ylabel('number of files')
         #     ax.set_ylim(0, 120)
         # plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
-
+        #
         # f, a = plt.subplots(2, 5)
         # a = a.ravel()
         # f.suptitle("WER where score_document <= k")
@@ -118,10 +102,13 @@ class Benchmark:
         #     ax.set_ylabel('number of files')
         #     ax.set_ylim(0, 120)
         # plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
-        #plt.show()
+        # plt.show()
 
     def rate_method(self, method) -> Dict[str, float]:
+        time_start = time.time()
         self._calculate_scores_from_method(method)
+        time_end = time.time()
+        logging.warning(f'Evaluate this method took {time_end-time_start} seconds')
         return {'mean_squared_error': mean_squared_error(y_true=self.data['ocr_quality_wer'],
                                                          y_pred=self.data['method_ocr_quality']),
                 'mean_absolute_error': mean_absolute_error(y_true=self.data['ocr_quality_wer'],
