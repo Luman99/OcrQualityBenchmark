@@ -1,3 +1,4 @@
+from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 
 from ocr_quality_benchmark.Benchmark import Benchmark
@@ -10,7 +11,7 @@ def make_model_decision_tree(benchmark: Benchmark) -> None:
     benchmark.rate_method(score_file_engine_scores)
     data_train = data_train[['ocr_quality_wer', 'percent_of_white_spaces', 'number_of_tokens', 'method_ocr_quality']]
 
-    decision_tree_gx = DecisionTreeRegressor(max_depth=3, random_state=1)
+    decision_tree_gx = DecisionTreeRegressor(max_depth=4, random_state=1)
     X = data_train[['method_ocr_quality', 'percent_of_white_spaces', 'number_of_tokens']]
     y = data_train['ocr_quality_wer'] - data_train['method_ocr_quality']
     decision_tree_gx = decision_tree_gx.fit(X, y)
