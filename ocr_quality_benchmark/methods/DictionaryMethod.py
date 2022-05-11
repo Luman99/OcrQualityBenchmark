@@ -2,14 +2,14 @@ import re
 
 from pandas import DataFrame
 from string import punctuation
-from ocr_quality_benchmark.methods.Constants import alphabet
+from ocr_quality_benchmark.methods.Constants import polish_dictionary
 
 regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
 
-def load_alphabet():
+def load_dictionary():
     all_words = {'a'}
-    with open(alphabet, encoding='utf8') as alp:
+    with open(polish_dictionary, encoding='utf8') as alp:
         alp = alp.readlines()
         for w in alp:
             w = w.replace(' ', '')
@@ -21,7 +21,7 @@ def load_alphabet():
 
 class DictionaryMethod:
     def __init__(self):
-        self.alphabet = load_alphabet()
+        self.polish_dictionary = load_dictionary()
 
     def score_file(self, name: str, data: DataFrame) -> float:
         text = ''
@@ -43,7 +43,7 @@ class DictionaryMethod:
                 if not word.isnumeric() and not re.fullmatch(regex, word) and word != '\n' and word not in punctuation \
                         and word != '':
                     all_words += 1
-                    if word in self.alphabet:
+                    if word in self.polish_dictionary:
                         if len(word) != 1 or word in ['a', 'i', 'o', 'u', 'w', 'z']:
                             correct_words += 1
         if all_words == 0:
